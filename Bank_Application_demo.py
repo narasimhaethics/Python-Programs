@@ -75,7 +75,7 @@ if __name__ == "__main__":
     my_bank = Bank("My Bank")
     customer_list=[]
     while True:
-        print("1. New Customer 2. Existing Customer 3.Exit")
+        print("1. New Customer 2. Existing Customer 3. Find Customers info 4.Exit")
         choice=int(input())
         if choice==1:
             print("Customer Registration: \n")
@@ -87,11 +87,13 @@ if __name__ == "__main__":
             customer_list.append(customer_obj)
             my_bank.add_customer(customer_obj)
             while True:
-                acc_type=int(input("Enter 1. To create Saving account 2. To Create Cheking account 3. Exit"))
+                acc_type=int(input("Enter 1. To create Saving account 2. To Create Cheking account 3. Exit\n"))
                 if acc_type==1:
                     customer_obj.create_account("Savings", 1000)
+                    break
                 elif acc_type==2:
                     customer_obj.create_account("Checking", 1000)
+                    break
                 elif acc_type==3:
                     break
                 else:
@@ -126,9 +128,11 @@ if __name__ == "__main__":
             else:
                 print("Account not found.")
         if choice==3:
+            my_bank.display_bank_info()
+        elif choice==4:
             break
         else:
-            print(" Invalid Option try again....!")
+            print("Invalid option...!")
                                             
                 
   
