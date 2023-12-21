@@ -14,10 +14,11 @@ class Customer:
         return account
 
     def display_customer_info(self):
-        print(f"Customer Name: {self.name}")
-        print(f"Address: {self.address}")
-        print(f"Contact Number: {self.contact_number}")
-        print("Accounts:")
+        #print(f"Customer Name: {self.name}")
+        #print(f"Address: {self.address}")
+        #print(f"Contact Number: {self.contact_number}")
+        #print("Accounts:")
+        
         for account in self.accounts:
             print(f"  - {account}")
 
@@ -30,12 +31,12 @@ class BankAccount:
 
     def deposit(self, amount):
         self.balance += amount
-        print(f"Deposited ${amount}. New balance: ${self.balance}")
+        print(f"Deposited INR {amount}. New balance: INR {self.balance}")
 
     def withdraw(self, amount):
         if amount <= self.balance:
             self.balance -= amount
-            print(f"Withdrew ${amount}. New balance: ${self.balance}")
+            print(f"Withdrew INR {amount}. New balance: INR {self.balance}")
         else:
             print("Insufficient funds!")
 
@@ -90,14 +91,16 @@ if __name__ == "__main__":
                 acc_type=int(input("Enter 1. To create Saving account 2. To Create Cheking account 3. Exit\n"))
                 if acc_type==1:
                     customer_obj.create_account("Savings", 1000)
+                    print("Savings account Created\n")
                     break
                 elif acc_type==2:
-                    customer_obj.create_account("Checking", 1000)
+                    customer_obj.create_account("Current", 1000)
+                    print("Current account Created\n")
                     break
                 elif acc_type==3:
                     break
                 else:
-                    print("Invalid option")
+                    print("Invalid option....Try again")
         if choice==2:
             # User input for transactions
             account_number_input = input("Enter your account number: ")
@@ -123,6 +126,8 @@ if __name__ == "__main__":
                         # Display updated account information
                         print("\nUpdated Account Information:")
                         print(account_to_transact)
+                    elif option==4:
+                        break
                     else:
                         print("Invalid Option")
             else:
@@ -132,7 +137,4 @@ if __name__ == "__main__":
         elif choice==4:
             break
         else:
-            print("Invalid option...!")
-                                            
-                
-  
+            pass                                    
