@@ -55,17 +55,17 @@ if input_choice==1:
     choice=int(input("Enter Target conversion:\n"))
     print("Converted value: ",decimal_others(decimal_num,choice))
 elif input_choice==2:
-    binary_num=input("Enter decimal number")
+    binary_num=input("Enter binary number")
     print('Convert to: 1: binary ,2: decimal,3: octal 4:hexadecimal')
     choice=int(input("Enter Target conversion:\n"))
     print("Converted value: ",binary_others(binary_num,choice))
 elif input_choice==3:
-    octal_num=input("Enter decimal number")
+    octal_num=input("Enter octal number")
     print('Convert to: 1: octal ,2: decimal,3: binary 4:hexadecimal')
     choice=int(input("Enter Target conversion:\n"))
     print("Converted value: ",octal_others(octal_num,choice))
 elif input_choice==4:
-    hex_num=input("Enter decimal number")
+    hex_num=input("Enter hexadecimal number")
     print('Convert to: 1: hex,2: decimal,3: octal 4:binary')
     choice=int(input("Enter Target conversion:\n"))
     print("Converted value: ",hex_others(hex_num,choice))
