@@ -6,9 +6,9 @@ class Customer:
         self.address = address
         self.contact_number = contact_number
         self.accounts = []
-
+    acc_num=0
     def create_account(self, account_type, initial_balance):
-        account_number = Bank.generate_account_number()
+        account_number = self.acc_num =Bank.generate_account_number()
         account = BankAccount(account_type, initial_balance, self, account_number)
         self.accounts.append(account)
         return account
@@ -41,7 +41,7 @@ class BankAccount:
             print("Insufficient funds!")
 
     def __str__(self):
-        return f"{self.account_type} Account - Account Number: {self.account_number}, Balance: ${self.balance}"
+        return f"{self.account_type} Account - Account Number: {self.account_number}, Balance: INR {self.balance}"
 
 class Bank:
     def __init__(self, name):
@@ -92,6 +92,7 @@ if __name__ == "__main__":
                 if acc_type==1:
                     customer_obj.create_account("Savings", 1000)
                     print("Savings account Created\n")
+                    print("Y
                     break
                 elif acc_type==2:
                     customer_obj.create_account("Current", 1000)
@@ -101,7 +102,7 @@ if __name__ == "__main__":
                     break
                 else:
                     print("Invalid option....Try again")
-        if choice==2:
+      if choice==2:
             # User input for transactions
             account_number_input = input("Enter your account number: ")
             account_to_transact = my_bank.find_account_by_number(account_number_input)
