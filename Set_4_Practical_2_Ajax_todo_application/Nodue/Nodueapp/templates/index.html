@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <ul id="todo-list">
+        {% for todo in todos %}
+            <li data-id="{{ todo.id }}" {% if todo.completed %}class="completed"{% endif %}>
+                {{ todo.text }}
+                <button class="toggle-btn">Toggle</button>
+                <button class="delete-btn">Delete</button>
+            </li>
+        {% endfor %}
+    </ul>
+    <form id="add-todo-form">
+        {% csrf_token %}
+        <input type="text" id="todo-text" placeholder="Enter your to-do">
+        <button type="submit">Add</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).ready(function () {
+            // AJAX for adding a to-do item
+            $('#add-todo-form').submit(function (e) {
+                e.preventDefault();
+                var text = $('#todo-text').val().trim();
+                if (text !== '') {
+                    $.ajax({
+                        url: '{% url "add_todo" %}',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        data: {text: text},
+                        success: function (response) {
+                            var todo = $('<li>').attr('data-id', response.id).text(text);
+                            var toggleBtn = $('<button>').addClass('toggle-btn').text('Toggle');
+                            var deleteBtn = $('<button>').addClass('delete-btn').text('Delete');
+                            todo.append(toggleBtn, deleteBtn);
+                            $('#todo-list').append(todo);
+                            $('#todo-text').val('');
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseJSON.error);
+                        }
+                    });
+                }
+            });
+
+            // AJAX for toggling completion status
+            $('#todo-list').on('click', '.toggle-btn', function () {
+                var todoItem = $(this).closest('li');
+                var id = todoItem.data('id');
+                $.ajax({
+                    url: '{% url "toggle_todo" %}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    data: {id: id},
+                    success: function (response) {
+                        todoItem.toggleClass('completed', response.completed);
+                    },
+                    error: function () {
+                        alert('Failed to toggle todo.');
+                    }
+                });
+            });
+
+            // AJAX for deleting a to-do item
+            $('#todo-list').on('click', '.delete-btn', function () {
+                var todoItem = $(this).closest('li');
+                var id = todoItem.data('id');
+                $.ajax({
+                    url: '{% url "delete_todo" %}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    data: {id: id},
+                    success: function (response) {
+                        todoItem.remove();
+                    },
+                    error: function () {
+                        alert('Failed to delete todo.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
